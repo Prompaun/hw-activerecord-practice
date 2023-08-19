@@ -40,19 +40,15 @@ class Customer < ActiveRecord::Base
   end
 
   def self.born_before_1980
-    #Customer.where('birthdate < ?', Date.strptime('1980-01-01', '%Y-%m-%d'))
     Customer.where("birthdate < '1980-01-01'")
   end
 
   def self.with_valid_email_and_born_before_1980
-    #Customer.where("email LIKE '%@%' and birthdate < ?", Date.strptime('1980-01-01', '%Y-%m-%d'))
-    #Customer.where("email LIKE ? and birthdate < ?", '%@%', Date.strptime('1980-01-01', '%Y-%m-%d'))
     Customer.where("email LIKE '%@%' and birthdate < '1980-01-01'")
   end
 
   def self.last_names_starting_with_b
     Customer.where('last LIKE ?','B%').order(birthdate: :asc)
-    #Customer.where('last LIKE ?','b%').order(birthdate: :asc)
   end
 
   def self.twenty_youngest
@@ -60,12 +56,6 @@ class Customer < ActiveRecord::Base
   end
 
   def self.update_gussie_murray_birthdate
-    #Customer.find_by("first ='Gussie'AND last ='Murray'").update(birthdate: Time.parse('2004-02-09'))
-    #Time.zone = "UTC"
-    #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Time.zone.parse('2004-02-08'))
-    #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Time.parse('2004-02-08').change(offset: "UTC"))
-    #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Date.strptime('2004-02-08', '%Y-%m-%d'))
-    #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: '2004-02-08')
     Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Time.find_zone("UTC").parse('2004-02-08'))
   end
 
@@ -74,13 +64,23 @@ class Customer < ActiveRecord::Base
   end
 
   def self.delete_meggie_herman
-    Customer.find_by(first: 'Meggie', last: 'Herman').update(first: nil, last: nil)
-    #Customer.find_by(first: 'Meggie', last: 'Herman').delete()
+    Customer.find_by(first: 'Meggie', last: 'Herman').delete()
   end
 
   def self.delete_everyone_born_before_1978
-    #Customer.where("birthdate < ?", Date.strptime('1980-01-01', '%Y-%m-%d')).delete_all()
     Customer.where("birthdate < '1978-01-01'").delete_all()
   end
+  #Customer.where('birthdate < ?', Date.strptime('1980-01-01', '%Y-%m-%d'))
+  #Customer.where("email LIKE '%@%' and birthdate < ?", Date.strptime('1980-01-01', '%Y-%m-%d'))
+  #Customer.where("email LIKE ? and birthdate < ?", '%@%', Date.strptime('1980-01-01', '%Y-%m-%d'))
+  #Customer.where('last LIKE ?','b%').order(birthdate: :asc)
+  #Customer.find_by("first ='Gussie'AND last ='Murray'").update(birthdate: Time.parse('2004-02-09'))
+  #Time.zone = "UTC"
+  #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Time.zone.parse('2004-02-08'))
+  #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Time.parse('2004-02-08').change(offset: "UTC"))
+  #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: Date.strptime('2004-02-08', '%Y-%m-%d'))
+  #Customer.find_by(first: 'Gussie', last: 'Murray').update(birthdate: '2004-02-08')
+  #Customer.find_by(first: 'Meggie', last: 'Herman').update(first: nil, last: nil)
+  #Customer.where("birthdate < ?", Date.strptime('1980-01-01', '%Y-%m-%d')).delete_all()
   # etc. - see README.md for more details
 end
